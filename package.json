@@ -1,0 +1,59 @@
+{
+  "name": "@shelf/winston-datadog-logs-transport",
+  "version": "0.0.2",
+  "description": "A Datadog Logs transport for Winston",
+  "license": "MIT",
+  "repository": "shelfio/winston-datadog-logs-transport",
+  "author": {
+    "name": "Vlad Holubiev",
+    "email": "vlad@shelf.io",
+    "url": "shelf.io"
+  },
+  "engines": {
+    "node": ">=8.10"
+  },
+  "scripts": {
+    "lint": "eslint . --fix",
+    "test": "echo ok"
+  },
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "keywords": [
+    "logging",
+    "logs",
+    "logger",
+    "winston",
+    "datadog",
+    "datadog logs"
+  ],
+  "dependencies": {
+    "winston-transport": "4.3.0"
+  },
+  "devDependencies": {
+    "@shelf/eslint-config": "0.0.6",
+    "eslint": "5.12.1",
+    "husky": "1.3.1",
+    "lint-staged": "8.1.0",
+    "prettier": "1.16.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{html,json,md,yml}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
