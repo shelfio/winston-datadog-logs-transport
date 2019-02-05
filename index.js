@@ -35,6 +35,10 @@ module.exports = class DatadogTransport extends Transport {
 
       socket.setKeepAlive(true);
       socket.write(`${config.apiKey} ${JSON.stringify(logEntry)}\r\n`);
+      socket.on('error', error => {
+        // eslint-disable-next-line no-console
+        console.log('datadog socket error', error);
+      });
       socket.end();
 
       return callback();
