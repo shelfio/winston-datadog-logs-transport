@@ -33,6 +33,7 @@ module.exports = class DatadogTransport extends Transport {
       // Merge the metadata with the log
       const logEntry = Object.assign({}, this.metadata, info);
 
+      socket.setKeepAlive(true);
       socket.write(`${config.apiKey} ${JSON.stringify(logEntry)}\r\n`);
       socket.end();
 
