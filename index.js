@@ -6,6 +6,15 @@ const config = {
   port: 10516
 };
 
+const socket = tls.connect(config.port, config.host);
+const onSecureConnect = new Promise(resolve => socket.on('secureConnect', resolve));
+
+socket.setKeepAlive(true);
+socket.on('error', error => {
+  // eslint-disable-next-line no-console
+  console.log('datadog socket error', error);
+});
+
 // @see @credits https://git.io/fhwzM
 
 module.exports = class DatadogTransport extends Transport {
@@ -20,28 +29,22 @@ module.exports = class DatadogTransport extends Transport {
     }
   }
 
-  log(info, callback) {
+  async log(info, callback) {
     setImmediate(() => {
       this.emit('logged', info);
     });
 
-    const socket = tls.connect(config.port, config.host, () => {
-      if (!socket.authorized) {
-        return callback('Error connecting to DataDog');
-      }
+    await onSecureConnect;
 
-      // Merge the metadata with the log
-      const logEntry = Object.assign({}, this.metadata, info);
+    if (!socket.authorized) {
+      return callback('Error connecting to DataDog');
+    }
 
-      socket.setKeepAlive(true);
-      socket.write(`${config.apiKey} ${JSON.stringify(logEntry)}\r\n`);
-      socket.on('error', error => {
-        // eslint-disable-next-line no-console
-        console.log('datadog socket error', error);
-      });
-      socket.end();
+    // Merge the metadata with the log
+    const logEntry = Object.assign({}, this.metadata, info);
 
-      return callback();
-    });
+    socket.write(`${config.apiKey} ${JSON.stringify(logEntry)}\r\n`);
+
+    return callback();
   }
 };
