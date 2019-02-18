@@ -7,6 +7,10 @@ const config = {
 };
 
 const waitForConnection = socket => new Promise(resolve => socket.on('secureConnect', resolve));
+const socketErrorHandler = error => {
+  // eslint-disable-next-line no-console
+  console.log('datadog socket error', error);
+};
 
 // @see @credits https://git.io/fhwzM
 
@@ -30,6 +34,9 @@ module.exports = class DatadogTransport extends Transport {
     const socket = tls.connect(config.port, config.host);
     await waitForConnection(socket);
 
+    socket.on('error', socketErrorHandler);
+    socket.on('timeout', socketErrorHandler);
+
     if (!socket.authorized) {
       return callback('Error connecting to DataDog');
     }
@@ -37,18 +44,10 @@ module.exports = class DatadogTransport extends Transport {
     // Merge the metadata with the log
     const logEntry = Object.assign({}, this.metadata, info);
 
-    socket
-      .on('error', error => {
-        // eslint-disable-next-line no-console
-        console.log('datadog socket error', error);
-      })
-      .write(`${config.apiKey} ${JSON.stringify(logEntry)}\r\n`, () => {
-        socket.end().on('error', error => {
-          // eslint-disable-next-line no-console
-          console.log('datadog socket end error', error);
-        });
+    socket.write(`${config.apiKey} ${JSON.stringify(logEntry)}\r\n`, () => {
+      socket.end();
 
-        return callback();
-      });
+      return callback();
+    });
   }
 };
