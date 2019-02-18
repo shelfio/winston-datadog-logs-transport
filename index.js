@@ -43,7 +43,10 @@ module.exports = class DatadogTransport extends Transport {
         console.log('datadog socket error', error);
       })
       .write(`${config.apiKey} ${JSON.stringify(logEntry)}\r\n`, () => {
-        socket.end();
+        socket.end().on('error', error => {
+          // eslint-disable-next-line no-console
+          console.log('datadog socket end error', error);
+        });
 
         return callback();
       });
