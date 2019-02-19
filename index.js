@@ -31,10 +31,10 @@ module.exports = class DatadogTransport extends Transport {
       this.emit('logged', info);
     });
 
-    const socket = tls.connect(config.port, config.host);
-
-    socket.on('error', socketErrorHandler);
-    socket.on('timeout', socketErrorHandler);
+    const socket = tls
+      .connect(config.port, config.host)
+      .on('error', socketErrorHandler)
+      .on('timeout', socketErrorHandler);
 
     await waitForConnection(socket);
 
