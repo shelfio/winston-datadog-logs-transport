@@ -32,10 +32,11 @@ module.exports = class DatadogTransport extends Transport {
     });
 
     const socket = tls.connect(config.port, config.host);
-    await waitForConnection(socket);
 
     socket.on('error', socketErrorHandler);
     socket.on('timeout', socketErrorHandler);
+
+    await waitForConnection(socket);
 
     if (!socket.authorized) {
       return callback('Error connecting to DataDog');
