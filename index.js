@@ -1,5 +1,6 @@
-const Transport = require('winston-transport');
 const tls = require('tls');
+const Transport = require('winston-transport');
+const safeStringify = require('fast-safe-stringify');
 
 const config = {
   host: 'intake.logs.datadoghq.com',
@@ -45,7 +46,7 @@ module.exports = class DatadogTransport extends Transport {
     // Merge the metadata with the log
     const logEntry = Object.assign({}, this.metadata, info);
 
-    socket.write(`${config.apiKey} ${JSON.stringify(logEntry)}\r\n`, () => {
+    socket.write(`${config.apiKey} ${safeStringify(logEntry)}\r\n`, () => {
       socket.end();
 
       return callback();

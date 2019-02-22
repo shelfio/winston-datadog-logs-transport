@@ -29,6 +29,7 @@
     "datadog logs"
   ],
   "dependencies": {
+    "fast-safe-stringify": "2.0.6",
     "winston-transport": "4.3.0"
   },
   "devDependencies": {
