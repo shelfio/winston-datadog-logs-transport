@@ -1,6 +1,6 @@
 {
   "name": "@shelf/winston-datadog-logs-transport",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A Datadog Logs transport for Winston",
   "license": "MIT",
   "repository": "shelfio/winston-datadog-logs-transport",
