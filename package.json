@@ -35,7 +35,7 @@
   "devDependencies": {
     "@shelf/eslint-config": "0.14.2",
     "eslint": "6.8.0",
-    "husky": "4.0.7",
+    "husky": "4.2.1",
     "lint-staged": "10.0.3",
     "prettier": "1.19.1"
   },
