@@ -21,6 +21,11 @@ module.exports = class DatadogTransport extends Transport {
 
     this.metadata = {};
     config.apiKey = opts.apiKey;
+    // add port and host as optional options
+    //so the user can change the port and host when his Databog region is not US
+    config.port = opts.port || config.port;
+    config.host = opts.host || config.host;
+
 
     if (opts.metadata) {
       Object.assign(this.metadata, opts.metadata);
