@@ -26,6 +26,8 @@ const logger = winston.createLogger({
   transports: [
     new DatadogTransport({
       apiKey: process.env.DD_API_KEY, // Datadog API key
+      port: 443, // optional port, 443 is for EU region secure port
+      host: 'tcp-intake.logs.datadoghq.eu', // optinal host, 'tcp-intake.logs.datadoghq.eu' is for EU region host
       // optional metadata which will be merged with every log message
       metadata: {
         ddsource: 'lambda',
