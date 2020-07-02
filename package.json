@@ -55,7 +55,7 @@
     "prettier": "2.0.5"
   },
   "engines": {
-    "node": ">=8.10"
+    "node": ">=12"
   },
   "publishConfig": {
     "access": "public"
