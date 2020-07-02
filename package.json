@@ -2,24 +2,6 @@
   "name": "@shelf/winston-datadog-logs-transport",
   "version": "1.0.7",
   "description": "A Datadog Logs transport for Winston",
-  "license": "MIT",
-  "repository": "shelfio/winston-datadog-logs-transport",
-  "author": {
-    "name": "Vlad Holubiev",
-    "email": "vlad@shelf.io",
-    "url": "shelf.io"
-  },
-  "engines": {
-    "node": ">=8.10"
-  },
-  "scripts": {
-    "lint": "eslint . --fix",
-    "test": "echo ok"
-  },
-  "files": [
-    "index.js"
-  ],
-  "main": "index.js",
   "keywords": [
     "logging",
     "logs",
@@ -28,16 +10,21 @@
     "datadog",
     "datadog logs"
   ],
-  "dependencies": {
-    "fast-safe-stringify": "2.0.7",
-    "winston-transport": "4.3.0"
+  "repository": "shelfio/winston-datadog-logs-transport",
+  "license": "MIT",
+  "author": {
+    "name": "Vlad Holubiev",
+    "email": "vlad@shelf.io",
+    "url": "shelf.io"
   },
-  "devDependencies": {
-    "@shelf/eslint-config": "0.16.0",
-    "eslint": "6.8.0",
-    "husky": "4.2.5",
-    "lint-staged": "10.2.11",
-    "prettier": "1.19.1"
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "lint": "eslint . --ext .js,.ts,.json --fix",
+    "lint:ci": "eslint . --ext .js,.ts,.json",
+    "test": "echo ok"
   },
   "husky": {
     "hooks": {
@@ -45,14 +32,30 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.{html,json,md,yml}": [
+    "*.{html,md,yml}": [
       "prettier --write",
       "git add"
+    ],
+    "*.{js,json}": [
+      "eslint --fix",
+      "git add"
     ]
+  },
+  "prettier": "@shelf/prettier-config",
+  "dependencies": {
+    "fast-safe-stringify": "2.0.7",
+    "winston-transport": "4.4.0"
+  },
+  "devDependencies": {
+    "@shelf/eslint-config": "0.18.0",
+    "@shelf/prettier-config": "0.0.7",
+    "eslint": "7.3.1",
+    "husky": "4.2.5",
+    "lint-staged": "10.2.11",
+    "prettier": "2.0.5"
+  },
+  "engines": {
+    "node": ">=8.10"
   },
   "publishConfig": {
     "access": "public"

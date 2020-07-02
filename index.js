@@ -26,7 +26,6 @@ module.exports = class DatadogTransport extends Transport {
     config.port = opts.port || config.port;
     config.host = opts.host || config.host;
 
-
     if (opts.metadata) {
       Object.assign(this.metadata, opts.metadata);
     }
@@ -49,7 +48,7 @@ module.exports = class DatadogTransport extends Transport {
     }
 
     // Merge the metadata with the log
-    const logEntry = Object.assign({}, this.metadata, info);
+    const logEntry = {...this.metadata, ...info};
 
     socket.write(`${config.apiKey} ${safeStringify(logEntry)}\r\n`, () => {
       socket.end();
