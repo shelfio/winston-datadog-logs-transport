@@ -40,6 +40,15 @@ const logger = winston.createLogger({
 logger.info('Hey there', {thisIsMy: 'metadata'});
 ```
 
+## Publish
+
+```sh
+$ git checkout master
+$ yarn version
+$ yarn publish
+$ git push origin master --tags
+```
+
 ## License
 
 MIT © [Shelf](https://shelf.io)
