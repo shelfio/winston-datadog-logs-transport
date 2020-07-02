@@ -1,6 +1,6 @@
 {
   "name": "@shelf/winston-datadog-logs-transport",
-  "version": "1.0.7",
+  "version": "2.0.0",
   "description": "A Datadog Logs transport for Winston",
   "keywords": [
     "logging",
