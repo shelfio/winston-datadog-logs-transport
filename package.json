@@ -47,7 +47,7 @@
     "winston-transport": "4.4.0"
   },
   "devDependencies": {
-    "@shelf/eslint-config": "0.18.0",
+    "@shelf/eslint-config": "0.19.0",
     "@shelf/prettier-config": "0.0.7",
     "eslint": "7.3.1",
     "husky": "4.2.5",
