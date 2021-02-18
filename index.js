@@ -7,11 +7,10 @@ const config = {
   port: 10516
 };
 
-const waitForConnection = socket => new Promise(resolve => socket.on('secureConnect', resolve));
-const socketErrorHandler = error => {
-  // eslint-disable-next-line no-console
-  console.log('datadog socket error', error);
-};
+const setupListeners = socket =>
+  new Promise((resolve, reject) => {
+    socket.on('secureConnect', resolve).on('error', reject).on('timeout', reject);
+  });
 
 // @see @credits https://git.io/fhwzM
 
@@ -36,12 +35,15 @@ module.exports = class DatadogTransport extends Transport {
       this.emit('logged', info);
     });
 
-    const socket = tls
-      .connect(config.port, config.host)
-      .on('error', socketErrorHandler)
-      .on('timeout', socketErrorHandler);
+    const socket = tls.connect(config.port, config.host);
 
-    await waitForConnection(socket);
+    try {
+      // connect to socket
+      await setupListeners(socket);
+    } catch (exception) {
+      // catch any exception that might happen and report it back
+      return callback(exception);
+    }
 
     if (!socket.authorized) {
       return callback('Error connecting to DataDog');
